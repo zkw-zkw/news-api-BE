@@ -40,6 +40,7 @@
 | 请求监控 | 耗时中间件 + 结构化日志 | 便于性能排查 |
 
 ## 📁 项目结构
+```
 头条项目/
 ├── cache/
 │ └── news_cache.py
@@ -82,8 +83,8 @@
 ├── main.py
 ├── README.md
 └── requirements.txt
+```
 
-text
 
 ## 🔧 快速启动
 
@@ -92,8 +93,9 @@ text
 ```bash
 git clone https://github.com/zkw-zkw/new-sapi.git
 cd new-sapi
-2. 创建虚拟环境并安装依赖
-bash
+```
+### 2. 创建虚拟环境并安装依赖
+```bash
 python -m venv venv
 # Windows
 venv\Scripts\activate
@@ -101,34 +103,42 @@ venv\Scripts\activate
 source venv/bin/activate
 
 pip install -r requirements.txt
-3. 配置环境变量
+```
+### 3. 配置环境变量
 创建 .env 文件：
 
-ini
+```ini
 DATABASE_URL=mysql+aiomysql://root:你的密码@localhost:3306/news_app?charset=utf8mb4
 REDIS_HOST=localhost
 REDIS_PORT=6379
 REDIS_DB=0
-4. 初始化数据库
-bash
+```
+### 4. 初始化数据库
+```bash
 mysql -u root -p -e "CREATE DATABASE news_app CHARACTER SET utf8mb4;"
-5. 启动服务
-bash
+```
+### 5. 启动服务
+```bash
 uvicorn main:app --reload
 访问 http://localhost:8000/docs 查看 Swagger API 文档。
+```
+## 📊 压测数据
 
-📊 压测数据
-指标	优化前	优化后
-QPS	120	380+
-平均响应时间	210ms	75ms
-缓存命中率	无缓存	95%+
-数据库负载	100%	~35%
-压测工具：JMeter，50-200 并发阶梯压测
+| 指标 | 优化前 | 优化后 |
+|------|--------|--------|
+| QPS | 120 | 380+ |
+| 平均响应时间 | 210ms | 75ms |
+| 缓存命中率 | 无缓存 | 95%+ |
+| 数据库负载 | 100% | ~35% |
 
-📄 License
+> 压测工具：JMeter，50-200 并发阶梯压测
+
+---
+
+## 📄 License
+
 MIT License
 
-text
 
 #### 3. `.env.example`（新建）
 
@@ -140,8 +150,10 @@ DATABASE_URL=mysql+aiomysql://root:你的密码@localhost:3306/news_app?charset=
 REDIS_HOST=localhost
 REDIS_PORT=6379
 REDIS_DB=0
-4. requirements.txt
+```
+### 4. requirements.txt
 在项目根目录打开终端，执行：
 
-bash
+```bash
 pip freeze > requirements.txt
+```
