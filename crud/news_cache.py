@@ -1,4 +1,4 @@
-from fastapi.encoders import jsonable_encoder
+﻿from fastapi.encoders import jsonable_encoder
 from sqlalchemy import select, func, update
 from sqlalchemy.ext.asyncio import AsyncSession
 import asyncio
@@ -79,9 +79,8 @@ async def get_news_detail(db: AsyncSession, news_id: int):
     cached_news = await get_cached_news_detail(news_id)
     if cached_news is not None:
         #检查空值占位符，避免构造 ORM 对象时报错
-        if await _is_empty_cache(cached_news):
-            return None
-        return News(**cached_news)
+        if not await _is_empty_cache(cached_news):
+            return News(**cached_news)
 
     # SETNX 互斥锁：缓存未命中时只允许一个请求查数据库，防止击穿
     if await acquire_lock('detail:' + str(news_id)):
@@ -89,9 +88,8 @@ async def get_news_detail(db: AsyncSession, news_id: int):
             #双重检查：获取锁期间其他请求可能已填充缓存
             cached_news = await get_cached_news_detail(news_id)
             if cached_news is not None:
-                if await _is_empty_cache(cached_news):
-                    return None
-                return News(**cached_news)
+                if not await _is_empty_cache(cached_news):
+                    return News(**cached_news)
 
             stmt = select(News).where(News.id == news_id)
             result = await db.execute(stmt)
@@ -99,7 +97,7 @@ async def get_news_detail(db: AsyncSession, news_id: int):
 
             if news:
                 news_dict = NewsDetailResponse.model_validate(news).model_dump(
-                    by_alias=False, mode="json", exclude={'related_news'}
+                    by_alias=False, mode='json', exclude={'related_news'}
                 )
                 await cache_news_detail(news_id, news_dict)
             else:
@@ -114,23 +112,12 @@ async def get_news_detail(db: AsyncSession, news_id: int):
         await asyncio.sleep(0.05)
         cached_news = await get_cached_news_detail(news_id)
         if cached_news is not None:
-            if await _is_empty_cache(cached_news):
-                return None
-            return News(**cached_news)
+            if not await _is_empty_cache(cached_news):
+                return News(**cached_news)
         #兜底：等待后缓存仍为空，直接查数据库
         stmt = select(News).where(News.id == news_id)
         result = await db.execute(stmt)
         return result.scalar_one_or_none()
-
-
-async def increase_news_views(db: AsyncSession, news_id: int):
-    stmt = update(News).where(News.id == news_id).values(views=News.views + 1)
-    result = await db.execute(stmt)
-    await db.commit()
-
-    #更新 → 检查数据库是否真的命中了数据 → 命中了返回True
-    return result.rowcount > 0
-
 
 async def get_related_news(db: AsyncSession, news_id: int, category_id: int, limit: int = 5):
     cached_related = await get_cached_related_news(news_id, category_id)
