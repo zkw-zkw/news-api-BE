@@ -6,6 +6,9 @@
 
 本项目是一个高并发新闻聚合平台后端 API 服务，采用 **Python FastAPI** 异步框架开发。核心亮点是**多级缓存防御体系** + **高并发浏览量写入方案**，经 JMeter 压测验证，单机 QPS 达 **380+**，TP99 控制在 **200ms** 以内。
 
+> 🚀 在线演示：http://118.195.129.25/ 
+> 
+> 📖 API文档：http://118.195.129.25:8000/docs
 ## 🛠️ 技术栈
 
 | 类别 | 技术 |
@@ -91,8 +94,8 @@
 ### 1. 克隆项目
 
 ```bash
-git clone https://github.com/zkw-zkw/new-sapi.git
-cd new-sapi
+git clone https://github.com/zkw-zkw/news-api-BE.git
+cd news-api-BE
 ```
 ### 2. 创建虚拟环境并安装依赖
 ```bash

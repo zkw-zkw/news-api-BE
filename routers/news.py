@@ -1,4 +1,4 @@
-﻿from fastapi import APIRouter, Depends, Query, HTTPException
+from fastapi import APIRouter, Depends, Query, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from config.cache_conf import redis_client
@@ -43,7 +43,7 @@ async def get_news_list(
     # (跳过的 + 当前列表里面的数量) < 总量
     has_more = (offset + len(news_list)) < total
 
-    # 补上 Redis 中未同步到 MySQL 的浏览量
+    
     if news_list:
         keys = [f"news:views:{n.id}" for n in news_list]
         vals = await redis_client.mget(keys)
