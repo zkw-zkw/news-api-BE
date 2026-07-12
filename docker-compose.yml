@@ -4,7 +4,7 @@ services:
     container_name: news-mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: 051215
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: news_app
     ports:
       - "3306:3306"
@@ -28,7 +28,7 @@ services:
       - mysql
       - redis
     environment:
-      DATABASE_URL: mysql+aiomysql://root:051215@mysql:3306/news_app?charset=utf8mb4
+      DATABASE_URL: ${DATABASE_URL}
       REDIS_HOST: redis
       REDIS_PORT: 6379
       REDIS_DB: 0
