@@ -1,4 +1,4 @@
-from contextlib import asynccontextmanager
+﻿from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -6,7 +6,7 @@ from core.logger import setup_logging
 setup_logging()  #第一行就初始化日志
 
 from core.startup import startup_tasks, shutdown_tasks
-from routers import news, users, favorite, history
+from routers import news, users, favorite, history, ai
 from utils.exception_handlers import register_exception_handlers
 import time
 import logging
@@ -48,3 +48,6 @@ app.include_router(news.router)
 app.include_router(users.router)
 app.include_router(favorite.router)
 app.include_router(history.router)
+app.include_router(ai.router)
+
+

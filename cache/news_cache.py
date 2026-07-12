@@ -1,4 +1,4 @@
-from typing import List, Dict, Any, Optional
+﻿from typing import List, Dict, Any, Optional
 import random
 
 from config.cache_conf import get_json_cache, set_cache
@@ -84,7 +84,7 @@ async def cache_news_detail(news_id: int, news_data: Dict[str, Any], expire: int
 
 
 
-async def cache_empty_news_detail(news_id: int, expire: int = 60) -> bool:
+async def cache_empty_news_detail(news_id: int, expire: int = 3) -> bool:
     key = f"{NEWS_DETAIL_PREFIX}{news_id}"
     return await set_cache(key, _EMPTY, expire)
 

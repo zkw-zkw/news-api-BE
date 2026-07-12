@@ -1,6 +1,7 @@
-from fastapi import APIRouter, Depends, Query, HTTPException
+﻿from fastapi import APIRouter, Depends, Query, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from config.cache_conf import redis_client
 from config.db_conf import get_db
 from crud import news
 from crud import news_cache
@@ -41,6 +42,14 @@ async def get_news_list(
     total = await news.get_news_count(db, category_id)
     # (跳过的 + 当前列表里面的数量) < 总量
     has_more = (offset + len(news_list)) < total
+
+    # 补上 Redis 中未同步到 MySQL 的浏览量
+    if news_list:
+        keys = [f"news:views:{n.id}" for n in news_list]
+        vals = await redis_client.mget(keys)
+        for n, v in zip(news_list, vals):
+            if v:
+                n.views += int(v)
     return {
         "code": 200,
         "message": "获取新闻列表成功",
@@ -61,6 +70,9 @@ async def get_news_detail(news_id: int = Query(..., alias="id"), db: AsyncSessio
 
     #用Redis的 INCR 替代每次请求都去更新数据库
     await news_cache.incr_news_views(news_detail.id)
+    pv = await redis_client.get(f"news:views:{news_detail.id}")
+    if pv:
+        news_detail.views += int(pv)
 
     related_news = await news_cache.get_related_news(db, news_detail.id, news_detail.category_id)
 
@@ -79,3 +91,4 @@ async def get_news_detail(news_id: int = Query(..., alias="id"), db: AsyncSessio
         "relatedNews": related_news
       }
     }
+
