@@ -25,3 +25,5 @@ env/
 
 # 日志
 *.log
+# pytest
+.pytest_cache/
