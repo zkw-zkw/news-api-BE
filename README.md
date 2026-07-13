@@ -1,6 +1,6 @@
-﻿# 新闻资讯后端系统
+﻿# 基于 FastAPI 和 LangChain 的新闻资讯 AI Agent 系统（已上线）
 
-> 基于 FastAPI 的新闻资讯 API 服务，支持 AI Agent 智能搜索，多层缓存防护体系。
+> 基于 **FastAPI** + **LangChain** 的高性能新闻资讯 API 服务，内置 AI Agent 智能搜索，多层缓存防护体系。
 
 🎯 在线演示：[http://118.195.129.25/](http://118.195.129.25/)  
 📖 API 文档：[http://118.195.129.25:8000/docs](http://118.195.129.25:8000/docs)
@@ -11,11 +11,11 @@
 
 | 类别 | 技术 |
 |------|------|
-| 后端框架 | Python 3.12 + FastAPI |
-| ORM | SQLAlchemy 2.0（异步） |
-| 数据库 | MySQL 8.0 + aiomysql |
-| 缓存 | Redis 7.0 |
-| AI Agent | LangChain 0.3 + DashScope（通义千问） |
+| 后端框架 | Python + FastAPI |
+| ORM | SQLAlchemy（异步） |
+| 数据库 | MySQL + aiomysql |
+| 缓存 | Redis |
+| AI Agent | LangChain + DashScope（通义千问） |
 | 部署 | Docker + Docker Compose |
 
 ---
