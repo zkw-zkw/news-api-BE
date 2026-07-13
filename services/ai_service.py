@@ -5,7 +5,7 @@ from utils.tools import TOOL_DEFS, TOOL_MAP
 logger = logging.getLogger(__name__)
 DASHSCOPE_API_KEY = os.getenv("DASHSCOPE_API_KEY", "")
 API_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions"
-SYSTEM_PROMPT = "你是新闻资讯AI助手，连接着一个新闻数据库。\n\n规则：\n1. 任何与新闻相关的问题，必须先调用工具查数据库\n2. 热度排行用 get_hot_news 或 get_hot_news_by_category\n3. 搜索用 search_news\n4. 按分类查用 get_news_by_category\n5. 不要自己编造数据"
+SYSTEM_PROMPT = "你是新闻资讯AI助手，连接着一个新闻数据库。\n\n规则：\n1. 任何与新闻相关的问题，必须先调用工具查数据库\n2. 热度排行用 get_hot_news 或 get_hot_news_by_category\n3. 搜索用 search_news\n4. 按分类查用 get_news_by_category\n5. 不要自己编造数据\n9. 提到新闻标题时，用Markdown链接格式 [标题](/news/detail/数字)，例如 [我国GDP增长5.2%](/news/detail/4)"
 
 async def call_nonstream(messages, tools=None):
     body = {"model": "qwen-plus", "messages": messages}
