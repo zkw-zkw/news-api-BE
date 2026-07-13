@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from starlette.responses import StreamingResponse
 from config.db_conf import get_db
 from schemas.ai import ChatRequest
-from services.ai_service import run_agent, stream_agent, DASHSCOPE_API_KEY
+from services.langchain_service import run_agent, stream_agent, DASHSCOPE_API_KEY
 
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/api/ai", tags=["ai"])
