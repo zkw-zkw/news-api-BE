@@ -23,13 +23,6 @@ def _build_agent(db):
         system_prompt=SYSTEM_PROMPT,
     )
 
-async def run_agent(db, user_msg: str) -> str:
-    if not DASHSCOPE_API_KEY:
-        return "AI 服务未配置（DASHSCOPE_API_KEY 为空）"
-    agent = _build_agent(db)
-    result = await agent.ainvoke({"messages": [("human", user_msg)]})
-    return result["messages"][-1].content
-
 async def stream_agent(db, user_msg: str):
     if not DASHSCOPE_API_KEY:
         yield "AI 服务未配置"
