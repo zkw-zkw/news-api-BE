@@ -13,7 +13,13 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    task = await startup_tasks()
+    yield
+    await shutdown_tasks(task)
+
+app = FastAPI(lifespan=lifespan)
 
 register_exception_handlers(app)
 
@@ -36,13 +42,6 @@ async def timing_middleware(request, call_next):
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    task = await startup_tasks()
-    yield
-    await shutdown_tasks(task)
-
 
 app.include_router(news.router)
 app.include_router(users.router)
