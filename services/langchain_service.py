@@ -21,7 +21,7 @@ def _build_agent(db):
     return create_react_agent(
         model=llm,
         tools=tools,
-        state_modifier=SYSTEM_PROMPT,
+        prompt=SYSTEM_PROMPT,
         checkpointer=MemorySaver(),
     )
 
@@ -29,7 +29,10 @@ async def run_agent(db, user_msg: str) -> str:
     if not DASHSCOPE_API_KEY:
         return "AI 服务未配置（DASHSCOPE_API_KEY 为空）"
     agent = _build_agent(db)
-    result = await agent.ainvoke({"messages": [("human", user_msg)]})
+    result = await agent.ainvoke(
+        {"messages": [("human", user_msg)]},
+        config={"configurable": {"thread_id": str(uuid.uuid4())}},
+    )
     return result["messages"][-1].content
 
 async def stream_agent(db, user_msg: str):
