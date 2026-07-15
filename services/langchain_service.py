@@ -1,8 +1,7 @@
-﻿import os, uuid
+﻿import os
 
 from langchain_openai import ChatOpenAI
 from langgraph.prebuilt import create_react_agent
-from langgraph.checkpoint.memory import MemorySaver
 
 from utils.tools import create_langchain_tools
 
@@ -21,18 +20,14 @@ def _build_agent(db):
     return create_react_agent(
         model=llm,
         tools=tools,
-        prompt=SYSTEM_PROMPT,
-        checkpointer=MemorySaver(),
+        prompt=SYSTEM_PROMPT
     )
 
 async def run_agent(db, user_msg: str) -> str:
     if not DASHSCOPE_API_KEY:
         return "AI 服务未配置（DASHSCOPE_API_KEY 为空）"
     agent = _build_agent(db)
-    result = await agent.ainvoke(
-        {"messages": [("human", user_msg)]},
-        config={"configurable": {"thread_id": str(uuid.uuid4())}},
-    )
+    result = await agent.ainvoke({"messages": [("human", user_msg)]})
     return result["messages"][-1].content
 
 async def stream_agent(db, user_msg: str):
@@ -40,11 +35,9 @@ async def stream_agent(db, user_msg: str):
         yield "AI 服务未配置"
         return
     agent = _build_agent(db)
-    config = {"configurable": {"thread_id": str(uuid.uuid4())}}
     async for event in agent.astream_events(
         {"messages": [("human", user_msg)]},
         version="v2",
-        config=config,
     ):
         if event["event"] == "on_chat_model_stream":
             content = event["data"]["chunk"].content

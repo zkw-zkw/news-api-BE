@@ -27,5 +27,3 @@ env/
 *.log
 # pytest
 .pytest_cache/
-
-venv/
