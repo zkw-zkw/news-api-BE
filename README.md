@@ -9,14 +9,14 @@
 
 ## 技术栈
 
-| 类别 | 技术 |
-|------|------|
-| 后端框架 | Python + FastAPI |
-| ORM | SQLAlchemy（异步） |
-| 数据库 | MySQL + aiomysql |
-| 缓存 | Redis |
-| AI Agent | LangChain + DashScope（通义千问） |
-| 部署 | Docker + Docker Compose |
+| 类别 | 技术                             |
+|------|--------------------------------|
+| 后端框架 | Python + FastAPI               |
+| ORM | SQLAlchemy（异步）                 |
+| 数据库 | MySQL + aiomysql               |
+| 缓存 | Redis                          |
+| AI Agent | LangChain1.3 + DashScope（通义千问） |
+| 部署 | Docker + Docker Compose        |
 
 ---
 

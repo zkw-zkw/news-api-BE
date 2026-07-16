@@ -1,4 +1,3 @@
-# core/startup.py
 import asyncio
 import logging
 from sqlalchemy import select, update
