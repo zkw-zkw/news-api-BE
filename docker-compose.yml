@@ -32,6 +32,7 @@ services:
       REDIS_HOST: redis
       REDIS_PORT: 6379
       REDIS_DB: 0
+      DASHSCOPE_API_KEY: ${DASHSCOPE_API_KEY}
 
 volumes:
   mysql_data:
