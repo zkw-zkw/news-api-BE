@@ -2,17 +2,12 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-import logging
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S"
-)
 
 from core.startup import startup_tasks, shutdown_tasks
 from routers import news, users, favorite, history, ai
 from utils.exception_handlers import register_exception_handlers
 import time
+import logging
 
 logger = logging.getLogger(__name__)
 
@@ -50,6 +45,6 @@ app.include_router(news.router)
 app.include_router(users.router)
 app.include_router(favorite.router)
 app.include_router(history.router)
-app.include_router(ai.router)
+app.include_router(ai.router)
 
 
