@@ -6,7 +6,10 @@ from config.db_conf import get_db
 from schemas.ai import ChatRequest
 from services.langchain_service import stream_agent, DASHSCOPE_API_KEY
 
-router = APIRouter(prefix="/api/ai", tags=["ai"])
+router = APIRouter(
+    prefix="/api/ai",
+    tags=["ai"]
+)
 
 @router.post("/chat")
 async def chat(req: ChatRequest, db: AsyncSession = Depends(get_db)):

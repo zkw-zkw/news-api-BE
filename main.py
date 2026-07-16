@@ -2,14 +2,17 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from core.logger import setup_logging
-setup_logging()  #第一行就初始化日志
+import logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S"
+)
 
 from core.startup import startup_tasks, shutdown_tasks
 from routers import news, users, favorite, history, ai
 from utils.exception_handlers import register_exception_handlers
 import time
-import logging
 
 logger = logging.getLogger(__name__)
 
